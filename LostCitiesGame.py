@@ -16,6 +16,7 @@ Deck = deck()
 Deck.new_deck()
 
 player1_hand = hand(Deck)
+player2_hand = hand(Deck)
 
 def main(stdscr):
     stdscr.clear()
@@ -23,6 +24,9 @@ def main(stdscr):
     if curses.has_colors():
         curses.start_color()
     
+    curses.curs_set(0)
+    stdscr.keypad(1)
+
     curses.init_pair(RED_ON_BLACK, curses.COLOR_RED, curses.COLOR_BLACK)
     curses.init_pair(GREEN_ON_BLACK, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(BLUE_ON_BLACK, curses.COLOR_BLUE, curses.COLOR_BLACK)
@@ -33,10 +37,56 @@ def main(stdscr):
     if (curses.can_change_color()):
         curses.init_color(Red_card, 940, 600, 600)
 
-    player1_hand.print_hand(stdscr)
+    index = 1
+    currpl = 1
 
+    stdscr.addstr(1, 67, "Player 1 Hand:", curses.color_pair(RED_ON_BLACK))
+    player1_hand.print_hand(stdscr, index)
     stdscr.refresh()
-    stdscr.getch()
+        
+    while True:
+        crc = stdscr.getch()
+        if (crc == curses.KEY_RIGHT and index != 8 and currpl == 1):
+            stdscr.clear()
+            index += 1
+            player1_hand.print_hand(stdscr, index)
+            stdscr.addstr(1, 67, "Player 1 Hand:", curses.color_pair(RED_ON_BLACK))
+            stdscr.refresh()
+        
+        if (crc == curses.KEY_LEFT and index != 1 and currpl == 1):
+            stdscr.clear()
+            index -= 1
+            stdscr.addstr(1, 67, "Player 1 Hand:", curses.color_pair(RED_ON_BLACK))
+            player1_hand.print_hand(stdscr, index)
+            stdscr.refresh()
+        
+        if (crc == 50):
+            currpl = 2
+            stdscr.clear()
+            stdscr.addstr(1, 67, "Player 2 Hand:", curses.color_pair(RED_ON_BLACK))
+            player2_hand.print_hand(stdscr, index)
+            stdscr.refresh()
+        
+        elif (crc == 49):
+            currpl = 1
+            stdscr.clear()
+            stdscr.addstr(1, 67, "Player 1 Hand:", curses.color_pair(RED_ON_BLACK))
+            player1_hand.print_hand(stdscr, index)
+            stdscr.refresh()
+        
+        if (crc == curses.KEY_RIGHT and index != 8 and currpl == 2):
+            stdscr.clear()
+            index += 1
+            player2_hand.print_hand(stdscr, index)
+            stdscr.addstr(1, 67, "Player 2 Hand:", curses.color_pair(RED_ON_BLACK))
+            stdscr.refresh()
+        
+        if (crc == curses.KEY_LEFT and index != 1 and currpl == 2):
+            stdscr.clear()
+            index -= 1
+            stdscr.addstr(1, 67, "Player 2 Hand:", curses.color_pair(RED_ON_BLACK))
+            player2_hand.print_hand(stdscr, index)
+            stdscr.refresh()
     
 
 wrapper(main)
