@@ -23,18 +23,19 @@ def main(stdscr):
     if curses.has_colors():
         curses.start_color()
     
-    curses.init_pair(RED_ON_BLACK, curses.COLOR_RED, curses.COLOR_WHITE)
+    curses.init_pair(RED_ON_BLACK, curses.COLOR_RED, curses.COLOR_BLACK)
     curses.init_pair(GREEN_ON_BLACK, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(BLUE_ON_BLACK, curses.COLOR_BLUE, curses.COLOR_BLACK)
     curses.init_pair(YELLOW_ON_BLACK, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     curses.init_pair(PURPLE_ON_BLACK, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
     curses.init_pair(WHITE_ON_BLACK, curses.COLOR_WHITE, curses.COLOR_BLACK)
-    curses.init_color(Red_card, 940, 600, 600)
+    #curses.init_color(Red_card, 940, 600, 600)
 
     player1_hand.print_hand(stdscr)
 
     stdscr.refresh()
     stdscr.getch()
     
+
 wrapper(main)
 

@@ -53,7 +53,7 @@ class card:
         color_choice = curses.A_NORMAL
 
         if self.suit == Suit.RED:
-            color_choice = curses.color_pair(Red_card)
+            color_choice = curses.color_pair(RED_ON_BLACK)
             if self.position == Position.DISCARD:
                 loc_y = 5
                 loc_x = 5
