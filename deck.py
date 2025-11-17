@@ -9,13 +9,12 @@ class deck():
         return self.deck_cards.pop()
 
     def new_deck(self):
-
         for suit in Suit:
-            for i in range(3):
+            for _ in range(3):
                 temp_card1 = card(suit, 'Wager', Position.DECK)
                 self.deck_cards.append(temp_card1)
-                for number in range(1, 11):
-                    temp_card2 = card(suit, number, Position.DECK)
-                    self.deck_cards.append(temp_card2)
+            for number in range(2, 11):
+                temp_card2 = card(suit, number, Position.DECK)
+                self.deck_cards.append(temp_card2)
 
         random.shuffle(self.deck_cards)
