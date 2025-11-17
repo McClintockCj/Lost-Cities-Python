@@ -102,7 +102,7 @@ class card:
             parameter.addstr(loc_y + 7, loc_x, f"|           {self.num} |")
             parameter.addstr(loc_y + 8, loc_x, " ------------- ")
         else:
-            parameter.addstr(loc_y, loc_x, " ------------ ")
+            parameter.addstr(loc_y, loc_x, " ------------- ")
             parameter.addstr(loc_y + 1, loc_x, f"| {self.num}          |")
             parameter.addstr(loc_y + 2, loc_x, "|             |")
             parameter.addstr(loc_y + 3, loc_x, "|             |")
