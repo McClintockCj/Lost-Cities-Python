@@ -52,10 +52,23 @@ def main(stdscr):
             player1_hand.print_hand(stdscr, index)
             stdscr.addstr(1, 67, "Player 1 Hand:", curses.color_pair(RED_ON_BLACK))
             stdscr.refresh()
+        elif (crc == curses.KEY_RIGHT and index == 8 and currpl == 1):
+            stdscr.clear()
+            index = 1
+            player1_hand.print_hand(stdscr, index)
+            stdscr.addstr(1, 67, "Player 1 Hand:", curses.color_pair(RED_ON_BLACK))
+            stdscr.refresh()
         
         if (crc == curses.KEY_LEFT and index != 1 and currpl == 1):
             stdscr.clear()
             index -= 1
+            stdscr.addstr(1, 67, "Player 1 Hand:", curses.color_pair(RED_ON_BLACK))
+            player1_hand.print_hand(stdscr, index)
+            stdscr.refresh()
+        
+        elif (crc == curses.KEY_LEFT and index == 1 and currpl == 1):
+            stdscr.clear()
+            index = 8
             stdscr.addstr(1, 67, "Player 1 Hand:", curses.color_pair(RED_ON_BLACK))
             player1_hand.print_hand(stdscr, index)
             stdscr.refresh()
@@ -81,9 +94,23 @@ def main(stdscr):
             stdscr.addstr(1, 67, "Player 2 Hand:", curses.color_pair(RED_ON_BLACK))
             stdscr.refresh()
         
+        elif (crc == curses.KEY_RIGHT and index == 8 and currpl == 2):
+            stdscr.clear()
+            index = 1
+            player2_hand.print_hand(stdscr, index)
+            stdscr.addstr(1, 67, "Player 2 Hand:", curses.color_pair(RED_ON_BLACK))
+            stdscr.refresh()
+        
         if (crc == curses.KEY_LEFT and index != 1 and currpl == 2):
             stdscr.clear()
             index -= 1
+            stdscr.addstr(1, 67, "Player 2 Hand:", curses.color_pair(RED_ON_BLACK))
+            player2_hand.print_hand(stdscr, index)
+            stdscr.refresh()
+        
+        elif (crc == curses.KEY_LEFT and index == 1 and currpl == 2):
+            stdscr.clear()
+            index = 8
             stdscr.addstr(1, 67, "Player 2 Hand:", curses.color_pair(RED_ON_BLACK))
             player2_hand.print_hand(stdscr, index)
             stdscr.refresh()
