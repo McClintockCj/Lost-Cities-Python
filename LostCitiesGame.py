@@ -4,7 +4,6 @@ import time
 from card import card, RED_ON_BLACK, GREEN_ON_BLACK, BLUE_ON_BLACK, YELLOW_ON_BLACK, PURPLE_ON_BLACK, WHITE_ON_BLACK, Red_card, Green_card, Blue_card, Yellow_card, Purple_card, White_card, Position, Suit
 from deck import deck
 from hand import hand
-from play import play
 
 screen_rows = 40
 screen_cols = 137
