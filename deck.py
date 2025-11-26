@@ -6,7 +6,10 @@ class deck():
         self.deck_cards = deck_cards
 
     def draw_card(self):
-        return self.deck_cards.pop()
+        if self.deck_cards:
+            return self.deck_cards.pop()
+        else:
+            return False
 
     def new_deck(self):
         for suit in Suit:

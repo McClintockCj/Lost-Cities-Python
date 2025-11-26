@@ -50,8 +50,6 @@ class card:
         loc_x = x
         loc_y = y 
 
-        color_choice = curses.A_NORMAL
-
         if self.suit == Suit.RED:
             color_choice = curses.color_pair(RED_ON_BLACK)
             if self.position == Position.DISCARD:

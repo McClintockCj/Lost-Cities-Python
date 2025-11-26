@@ -3,7 +3,7 @@ from curses import wrapper
 import time
 from card import card, RED_ON_BLACK, GREEN_ON_BLACK, BLUE_ON_BLACK, YELLOW_ON_BLACK, PURPLE_ON_BLACK, WHITE_ON_BLACK, Red_card, Green_card, Blue_card, Yellow_card, Purple_card, White_card, Position, Suit
 from deck import deck
-from hand import hand
+from player import player
 
 screen_rows = 40
 screen_cols = 137
@@ -14,7 +14,7 @@ time.sleep(0.1)
 Deck = deck()
 Deck.new_deck()
 
-player1_hand = hand(Deck)
+player1 = player(Deck)
 
 def main(stdscr):
     stdscr.clear()
@@ -32,10 +32,12 @@ def main(stdscr):
     if (curses.can_change_color()):
         curses.init_color(Red_card, 940, 600, 600)
 
-    player1_hand.print_hand(stdscr)
 
-    stdscr.refresh()
-    stdscr.getch()
+    while True:
+        player1.print_hand(stdscr)
+        player1.print_played(stdscr)
+        player1.turn(stdscr, Deck)
+        stdscr.refresh()
     
 
 wrapper(main)
