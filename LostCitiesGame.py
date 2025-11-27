@@ -29,6 +29,7 @@ def main(stdscr):
     curses.init_pair(YELLOW_ON_BLACK, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     curses.init_pair(PURPLE_ON_BLACK, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
     curses.init_pair(WHITE_ON_BLACK, curses.COLOR_WHITE, curses.COLOR_BLACK)
+    curses.init_pair(7, curses.COLOR_BLUE, curses.COLOR_WHITE)
     
     if (curses.can_change_color()):
         curses.init_color(Red_card, 940, 600, 600)

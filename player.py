@@ -126,6 +126,7 @@ class player:
     def turn(self, parameter, deck):
         index = 1
         while True:
+            parameter.addstr(0, 0, "Mode: PLAY", curses.color_pair(7))
             crc = parameter.getch()
             parameter.clear()
 
@@ -150,7 +151,7 @@ class player:
                 self.print_played(parameter)
                 self.print_discard(parameter)
                 parameter.refresh()
-                
+
                 self.draw_to_hand(parameter, deck)
                 break
                 # if self.play(parameter, index, deck):
@@ -195,6 +196,7 @@ class player:
 
     def draw_to_hand(self, parameter, deck):
         while True:
+            parameter.addstr(0, 0, "Mode: DRAW", curses.color_pair(7))
             index = 7
             crc = parameter.getch()
 
