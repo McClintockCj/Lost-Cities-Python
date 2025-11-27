@@ -6,7 +6,8 @@ class player:
 
     def __init__(self, deck):
         self.hand_cards = []
-        self.played_cards = []
+        self.played_cards = [] # I will impiment this tactic for played cards also: Suit.RED :[], Suit.GREEN:[], Suit.BLUE:[], Suit.YELLOW:[], Suit.PURPLE:[], Suit.WHITE:[]
+        self.discard_cards = {Suit.RED :[], Suit.GREEN:[], Suit.BLUE:[], Suit.YELLOW:[], Suit.PURPLE:[], Suit.WHITE:[]}
         for i in range(1, 9):
             temp_card = deck.draw_card()
             temp_card.set_position(Position.HAND)
@@ -22,62 +23,12 @@ class player:
     def sort_played(self):
         self.played_cards = sorted(self.played_cards, key=lambda temp_card: (temp_card.suit.value, temp_card.num if temp_card.num != 'Wager' else 0))
 
-    def draw_to_hand(self, deck):
-        temp_card = deck.draw_card()
-        if temp_card != False:
-            temp_card.set_position(Position.HAND)
-            self.hand_cards.append(temp_card)
-            self.sort_hand()
-        else:
-            return False
-
     def hand_cordinate(self, card, index):
-        if card.hand_num == 1 and index == 1:
-            return (28, 5)
-        elif card.hand_num == 1:
-            return (30, 5)
-        if card.hand_num == 2 and index == 2:
-            return (28, 21)
-        elif card.hand_num == 2:
-            return (30, 21)
-        elif card.hand_num == 3 and index == 3:
-            return (28, 37)
-        elif card.hand_num == 3:
-            return (30, 37)
-        elif card.hand_num == 4 and index == 4:
-            return (28, 53)
-        elif card.hand_num == 4:
-            return (30, 53)
-        elif card.hand_num == 5 and index == 5:
-            return (28, 69)
-        elif card.hand_num == 5:
-            return (30, 69)
-        elif card.hand_num == 6 and index == 6:
-            return (28, 85)
-        elif card.hand_num == 6:
-            return (30, 85)
-        elif card.hand_num == 7 and index == 7:
-            return (28, 101)
-        elif card.hand_num == 7:
-            return (30, 101)
-        elif card.hand_num == 8 and index == 8:
-            return (28, 117)
-        elif card.hand_num == 8:   
-            return (30, 117)
-        
-    def played_cordinate(self, card):
-        if card.suit == Suit.RED:
-            return (19, 5)
-        elif card.suit == Suit.GREEN:
-            return (19, 21)
-        elif card.suit == Suit.BLUE:
-            return (19, 37)
-        elif card.suit == Suit.YELLOW:
-            return (19, 53)
-        elif card.suit == Suit.PURPLE:
-            return (19, 69)
-        # elif card.suit == Suit.WHITE:
-        #     return (19, 85)
+
+        if card.hand_num == index:
+            return(40, 5 + (16 * (card.hand_num-1)))
+        else:
+            return (42, 5 + (16 * (card.hand_num-1)))
         
     def print_hand(self, parameter, index=1):
         for card in self.hand_cards:
@@ -90,7 +41,7 @@ class player:
         Bcount = 0
         Ycount = 0
         Pcount = 0
-        # Wcount = 0
+        Wcount = 0
         for card in self.played_cards:
             if card.suit == Suit.RED:
                 card.cardprint(parameter, 10+(2*Rcount), 5)
@@ -107,17 +58,70 @@ class player:
             elif card.suit == Suit.PURPLE:
                 card.cardprint(parameter, 10+(2*Pcount), 69)
                 Pcount += 1
-
+            elif card.suit == Suit.WHITE:
+                card.cardprint(parameter, 10+(2*Wcount), 85)
+                Wcount += 1
     
     def score(self):
-        total_score = 0
-        return total_score 
-    
-    def score(self):
-        total_score = 0
+        R_score = 0
+        R_wage = 1
+        R_neg = 0
 
-        for suit in Suit:
-            return total_score
+        G_score = 0
+        G_wage = 1
+        G_neg = 0
+
+        B_score = 0
+        B_wage = 1
+        B_neg = 0
+
+        Y_score = 0
+        Y_wage = 1
+        Y_neg = 0
+
+        P_score = 0
+        P_wage = 1
+        P_neg = 0
+
+        W_score = 0
+        W_wage = 1
+        W_neg = 0
+
+        for card in self.played_cards:
+            if card.suit == Suit.RED:
+                R_neg = -20
+                if card.num == 0:
+                    R_wage += 1
+                R_score += card.num
+            if card.suit == Suit.GREEN:
+                G_neg = -20
+                if card.num == 0:
+                    G_wage += 1
+                G_score += card.num
+            if card.suit == Suit.BLUE:
+                B_neg = -20
+                if card.num == 0:
+                    B_wage += 1
+                B_score += card.num
+            if card.suit == Suit.YELLOW:
+                Y_neg = -20
+                if card.num == 0:
+                    Y_wage += 1
+                Y_score += card.num
+            if card.suit == Suit.PURPLE:
+                P_neg = -20
+                if card.num == 0:
+                    P_wage += 1
+                P_score += card.num
+            if card.suit == Suit.WHITE:
+                W_neg = -20
+                if card.num == 0:
+                    W_wage += 1
+                W_score += card.num
+
+        total_score = ((R_neg - (R_score * R_wage))+(G_neg - (G_score * G_wage))+(B_neg - (B_score * B_wage))+(Y_neg - (Y_score * Y_wage))+(P_neg - (P_score * P_wage))+(W_neg - (W_score * W_wage)))
+        return total_score
+
         
     def turn(self, parameter, deck):
         index = 1
@@ -137,27 +141,153 @@ class player:
                 else:
                     index -= 1
 
-            if (crc == curses.KEY_ENTER or crc == 10 or crc == 13 or crc == "\n"):
-                if self.play(parameter, index, deck):
-                    break
+            if (crc == curses.KEY_UP):
+                self.discard(index)
+                parameter.addstr("TEST")
+                self.draw_to_hand(parameter, deck)
+                break
+                # if self.play(parameter, index, deck):
+                #     break
                 # else:
-                    # parameter.addstr(40, 5, "Invalid card.")
-                
+                #     parameter.addstr(40, 5, "Invalid card.")
+                # break
+
+            if (crc == curses.KEY_DOWN):
+                self.play(parameter, index)
+                self.draw_to_hand(parameter, deck)
+                break
+                # if self.play(parameter, index, deck):
+                #     break
+                # else:
+                #     parameter.addstr(40, 5, "Invalid card.")
+                # break
+
+            parameter.clear()
+            deck.deck_print(parameter)
             self.print_hand(parameter, index)
             self.print_played(parameter)
+            self.print_discard(parameter)
             parameter.refresh()
         
-    def play(self, parameter, index, deck):
+    def play(self, parameter, index):
         for card in self.hand_cards:
             if card.hand_num == index:
                 self.hand_cards.remove(card)
                 self.played_cards.append(card)
                 self.print_played(parameter)
-                if self.draw_to_hand(deck):
-                    return True
-                # else:
-                #     parameter.addstr(40, 5, "The round is over!")
-                #     parameter.refresh()
-                #     return False
+        
 
+
+    def draw_to_hand(self, parameter, deck):
+        index = 7
+        while True:
+            crc = parameter.getch()
+            parameter.clear()
+
+            if (crc == curses.KEY_RIGHT):
+                if index == 7:
+                    index = 1
+                else:
+                    index += 1
+            
+            if (crc == curses.KEY_LEFT):
+                if index == 1:
+                    index = 7
+                else:
+                    index -= 1
+
+            if (crc == curses.KEY_DOWN):
+                if index == 7:
+                    temp_card = deck.draw_card()
+                    temp_card.set_position(Position.HAND)
+                    self.hand_cards.append(temp_card)
+                    self.sort_hand()
+                    break
+                else:
+                    if index == 1:
+                        temp_card = self.discard_cards[Suit.RED].pop(0)
+                        temp_card.set_position(Position.HAND)
+                        self.hand_cards.append(temp_card)
+                        self.sort_hand()
+                    if index == 2:
+                        temp_card = self.discard_cards[Suit.GREEN].pop(0)
+                        temp_card.set_position(Position.HAND)
+                        self.hand_cards.append(temp_card)
+                        self.sort_hand()
+                    if index == 3:
+                        temp_card = self.discard_cards[Suit.BLUE].pop(0)
+                        temp_card.set_position(Position.HAND)
+                        self.hand_cards.append(temp_card)
+                        self.sort_hand()
+                    if index == 4:
+                        temp_card = self.discard_cards[Suit.YELLOW].pop(0)
+                        temp_card.set_position(Position.HAND)
+                        self.hand_cards.append(temp_card)
+                        self.sort_hand()
+                    if index == 5:
+                        temp_card = self.discard_cards[Suit.PURPLE].pop(0)
+                        temp_card.set_position(Position.HAND)
+                        self.hand_cards.append(temp_card)
+                        self.sort_hand()
+                    if index == 6:
+                        temp_card = self.discard_cards[Suit.WHITE].pop(0)
+                        temp_card.set_position(Position.HAND)
+                        self.hand_cards.append(temp_card)
+                        self.sort_hand()
+                    break
+
+            parameter.clear()
+            deck.deck_print(parameter, index)
+            self.print_hand(parameter)
+            self.print_played(parameter)
+            self.print_discard(parameter, index)
+            parameter.refresh()
+
+    def discard(self, index):
+        for card in self.hand_cards:
+            if card.hand_num == index:
+                self.hand_cards.remove(card)
+                card.set_position(Position.DISCARD)
+                self.discard_cards[card.suit].append(card)
+
+    def print_discard(self, parameter, index = 0):
+        cord_x = 5
+        cord_y = 1
+        for key in self.discard_cards:
+            if key == Suit.RED and self.discard_cards[Suit.RED]:
+                if index == 1:
+                    self.discard_cards[Suit.RED][0].cardprint(parameter, cord_y + 2, cord_x)
+                else:
+                    self.discard_cards[Suit.RED][0].cardprint(parameter, cord_y, cord_x)    
+
+            if key == Suit.GREEN and self.discard_cards[Suit.GREEN]:
+                if index == 2:
+                    self.discard_cards[Suit.GREEN][0].cardprint(parameter, cord_y + 2, (cord_x + 16))
+                else:
+                    self.discard_cards[Suit.GREEN][0].cardprint(parameter, cord_y, (cord_x + 16))
+
+            if key == Suit.BLUE and self.discard_cards[Suit.BLUE]:
+                if index == 3:
+                    self.discard_cards[Suit.BLUE][0].cardprint(parameter, cord_y + 2, (cord_x + (16 * 2)))
+                else:
+                    self.discard_cards[Suit.BLUE][0].cardprint(parameter, cord_y, (cord_x + (16 * 2)))
+
+            if key == Suit.YELLOW and self.discard_cards[Suit.YELLOW]:
+                if index == 4:
+                    self.discard_cards[Suit.YELLOW][0].cardprint(parameter, cord_y + 2, (cord_x + (16 * 3)))
+                else:
+                    self.discard_cards[Suit.YELLOW][0].cardprint(parameter, cord_y, (cord_x + (16 * 3)))
+
+            if key == Suit.PURPLE and self.discard_cards[Suit.PURPLE]:
+                if index == 5:
+                    self.discard_cards[Suit.PURPLE][0].cardprint(parameter, cord_y + 2, (cord_x + (16 * 4)))
+                else:
+                    self.discard_cards[Suit.PURPLE][0].cardprint(parameter, cord_y, (cord_x + (16 * 4)))
+
+            if key == Suit.WHITE and self.discard_cards[Suit.WHITE]:
+                if index == 6:
+                    self.discard_cards[Suit.WHITE][0].cardprint(parameter, cord_y + 2, (cord_x + (16 * 5)))
+                else:
+                    self.discard_cards[Suit.WHITE][0].cardprint(parameter, cord_y, (cord_x + (16 * 5)))
+            
 

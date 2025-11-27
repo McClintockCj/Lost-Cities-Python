@@ -27,6 +27,7 @@ class Suit(Enum):
     BLUE = auto()
     YELLOW = auto()
     PURPLE = auto()
+    WHITE = auto()
 
 
 class card:
@@ -50,31 +51,20 @@ class card:
         loc_x = x
         loc_y = y 
 
+        color_choice = curses.A_NORMAL
+
         if self.suit == Suit.RED:
             color_choice = curses.color_pair(RED_ON_BLACK)
-            if self.position == Position.DISCARD:
-                loc_y = 5
-                loc_x = 5
         elif self.suit == Suit.GREEN:
             color_choice = curses.color_pair(GREEN_ON_BLACK)
-            if self.position == Position.DISCARD:
-                loc_y = 5
-                loc_x = 21
         elif self.suit == Suit.BLUE:
             color_choice = curses.color_pair(BLUE_ON_BLACK)
-            if self.position == Position.DISCARD:
-                loc_y = 5
-                loc_x = 37
         elif self.suit == Suit.YELLOW:
             color_choice = curses.color_pair(YELLOW_ON_BLACK)
-            if self.position == Position.DISCARD:
-                loc_y = 5
-                loc_x = 53
         elif self.suit == Suit.PURPLE:
             color_choice = curses.color_pair(PURPLE_ON_BLACK)
-            if self.position == Position.DISCARD:
-                loc_y = 5
-                loc_x = 69
+        elif self.suit == Suit.WHITE:
+            color_choice = curses.color_pair(WHITE_ON_BLACK)
 
         parameter.attron(color_choice)
 
@@ -111,3 +101,7 @@ class card:
             parameter.addstr(loc_y + 8, loc_x, " ------------- ")
 
         parameter.attroff(color_choice)
+
+    
+
+        

@@ -5,7 +5,7 @@ from card import card, RED_ON_BLACK, GREEN_ON_BLACK, BLUE_ON_BLACK, YELLOW_ON_BL
 from deck import deck
 from player import player
 
-screen_rows = 40
+screen_rows = 52
 screen_cols = 137
 
 print (f'\x1b[8;{screen_rows};{screen_cols}t')
@@ -21,6 +21,7 @@ def main(stdscr):
 
     if curses.has_colors():
         curses.start_color()
+        curses.use_default_colors()
     
     curses.init_pair(RED_ON_BLACK, curses.COLOR_RED, curses.COLOR_BLACK)
     curses.init_pair(GREEN_ON_BLACK, curses.COLOR_GREEN, curses.COLOR_BLACK)
@@ -33,11 +34,14 @@ def main(stdscr):
         curses.init_color(Red_card, 940, 600, 600)
 
 
-    while True:
+    while Deck.check_end():
+        Deck.deck_print(stdscr)
         player1.print_hand(stdscr)
         player1.print_played(stdscr)
         player1.turn(stdscr, Deck)
         stdscr.refresh()
+    else:
+        stdscr.addstr("End of game")
     
 
 wrapper(main)
