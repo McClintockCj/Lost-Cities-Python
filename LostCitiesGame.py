@@ -18,7 +18,7 @@ player1 = player(Deck)
 
 def main(stdscr):
     stdscr.clear()
-
+    curses.curs_set(0)
     if curses.has_colors():
         curses.start_color()
         curses.use_default_colors()
@@ -41,7 +41,10 @@ def main(stdscr):
         player1.turn(stdscr, Deck)
         stdscr.refresh()
     else:
-        stdscr.addstr("End of game")
+        stdscr.clear()
+        while True:
+            stdscr.addstr(0, 0, "End of Game")
+            stdscr.refresh()
     
 
 wrapper(main)

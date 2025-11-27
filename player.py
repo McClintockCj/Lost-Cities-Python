@@ -143,7 +143,14 @@ class player:
 
             if (crc == curses.KEY_UP):
                 self.discard(index)
-                parameter.addstr("TEST")
+                #Here to avoid unneccesary black screen
+                parameter.clear()
+                deck.deck_print(parameter)
+                self.print_hand(parameter, index)
+                self.print_played(parameter)
+                self.print_discard(parameter)
+                parameter.refresh()
+                
                 self.draw_to_hand(parameter, deck)
                 break
                 # if self.play(parameter, index, deck):
@@ -154,6 +161,15 @@ class player:
 
             if (crc == curses.KEY_DOWN):
                 self.play(parameter, index)
+
+                #Here to avoid unneccesary black screen
+                parameter.clear()
+                deck.deck_print(parameter)
+                self.print_hand(parameter, index)
+                self.print_played(parameter)
+                self.print_discard(parameter)
+                parameter.refresh()
+
                 self.draw_to_hand(parameter, deck)
                 break
                 # if self.play(parameter, index, deck):
@@ -174,15 +190,13 @@ class player:
             if card.hand_num == index:
                 self.hand_cards.remove(card)
                 self.played_cards.append(card)
-                self.print_played(parameter)
         
 
 
     def draw_to_hand(self, parameter, deck):
-        index = 7
         while True:
+            index = 7
             crc = parameter.getch()
-            parameter.clear()
 
             if (crc == curses.KEY_RIGHT):
                 if index == 7:
