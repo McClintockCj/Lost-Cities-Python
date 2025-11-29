@@ -31,7 +31,7 @@ class player:
         else:
             return (42, 5 + (16 * (card.hand_num-1)))
         
-    def print_hand(self, parameter, index=1):
+    def print_hand(self, parameter, index=0):
         for card in self.hand_cards:
             card.cardprint(parameter, self.hand_cordinate(card, index)[0], self.hand_cordinate(card, index)[1])
 
@@ -126,6 +126,13 @@ class player:
         
     def turn(self, parameter, deck):
         index = 1
+        parameter.clear()
+        deck.print_deck(parameter)
+        self.print_hand(parameter, index)
+        self.print_played(parameter)
+        self.print_discard(parameter)
+        parameter.refresh()
+
         while True:
             parameter.addstr(0, 0, "Mode: PLAY", curses.color_pair(7))
             parameter.addstr(5, 120, "<-- DISCARD", curses.color_pair(7))
@@ -150,7 +157,7 @@ class player:
                 self.discard(index)
                 #Here to avoid unneccesary black screen
                 parameter.clear()
-                deck.deck_print(parameter)
+                deck.print_deck(parameter)
                 self.print_hand(parameter, index)
                 self.print_played(parameter)
                 self.print_discard(parameter)
@@ -169,7 +176,7 @@ class player:
 
                 #Here to avoid unneccesary black screen
                 parameter.clear()
-                deck.deck_print(parameter)
+                deck.print_deck(parameter)
                 self.print_hand(parameter, index)
                 self.print_played(parameter)
                 self.print_discard(parameter)
@@ -184,11 +191,18 @@ class player:
                 # break
 
             parameter.clear()
-            deck.deck_print(parameter)
+            deck.print_deck(parameter)
             self.print_hand(parameter, index)
             self.print_played(parameter)
             self.print_discard(parameter)
             parameter.refresh()
+
+        parameter.clear()
+        deck.print_deck(parameter)
+        self.print_hand(parameter, index)
+        self.print_played(parameter)
+        self.print_discard(parameter)
+        parameter.refresh()
         
     def play(self, parameter, index):
         for card in self.hand_cards:
@@ -199,7 +213,13 @@ class player:
 
 
     def draw_to_hand(self, parameter, deck):
-        indx = 7 #Was inside the loop resetting index back to 7 every time, made me pull my hair out :((((( -Charlie
+        indx = 7
+        parameter.clear()
+        deck.print_deck(parameter, indx)
+        self.print_hand(parameter)
+        self.print_played(parameter)
+        self.print_discard(parameter)
+        parameter.refresh()
         while True:
             parameter.addstr(0, 0, "Mode: DRAW", curses.color_pair(7))
             parameter.addstr(5, 120, "<-- DISCARD", curses.color_pair(7))
@@ -211,12 +231,21 @@ class player:
                     indx = 1
                 else:
                     indx += 1
+                while (indx != 7 and len(self.discard_cards[Suit(indx)]) < 1):
+                    indx += 1
             
             if (crc == curses.KEY_LEFT):
                 if indx == 1:
                     indx = 7
                 else:
                     indx -= 1
+                    while (indx != 7 and len(self.discard_cards[Suit(indx)]) < 1):
+                        if indx == 1:
+                            indx = 7
+                            break
+                        else:
+                            indx -= 1
+                
             
             if (crc == curses.KEY_DOWN):
                 if indx == 7:
@@ -314,11 +343,19 @@ class player:
                     
 
             parameter.clear()
-            deck.deck_print(parameter, indx)
+            deck.print_deck(parameter, indx)
             self.print_hand(parameter)
             self.print_played(parameter)
             self.print_discard(parameter, indx)
             parameter.refresh()
+
+        # Added so that if we break out of the loop, it still reprints right away
+        parameter.clear()
+        deck.print_deck(parameter)
+        self.print_hand(parameter)
+        self.print_played(parameter)
+        self.print_discard(parameter)
+        parameter.refresh()
 
     def discard(self, index):
         for card in self.hand_cards:

@@ -29,7 +29,7 @@ class deck():
         else:
             return True
     
-    def deck_print(self, parameter, index = 0):
+    def print_deck(self, parameter, index = 0):
         loc_x = 101
         
         if index == 7:

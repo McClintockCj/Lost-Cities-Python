@@ -1,7 +1,7 @@
 import curses
 from curses import wrapper
 import time
-from card import card, RED_ON_BLACK, GREEN_ON_BLACK, BLUE_ON_BLACK, YELLOW_ON_BLACK, PURPLE_ON_BLACK, WHITE_ON_BLACK, Red_card, Green_card, Blue_card, Yellow_card, Purple_card, White_card, Position, Suit
+from card import card, RED_ON_BLACK, GREEN_ON_BLACK, BLUE_ON_BLACK, YELLOW_ON_BLACK, PURPLE_ON_BLACK, WHITE_ON_BLACK, Position, Suit
 from deck import deck
 from player import player
 
@@ -30,13 +30,9 @@ def main(stdscr):
     curses.init_pair(PURPLE_ON_BLACK, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
     curses.init_pair(WHITE_ON_BLACK, curses.COLOR_WHITE, curses.COLOR_BLACK)
     curses.init_pair(7, curses.COLOR_BLUE, curses.COLOR_WHITE)
-    
-    if (curses.can_change_color()):
-        curses.init_color(Red_card, 940, 600, 600)
-
 
     while Deck.check_end():
-        Deck.deck_print(stdscr)
+        Deck.print_deck(stdscr)
         player1.print_hand(stdscr)
         player1.print_played(stdscr)
         player1.turn(stdscr, Deck)

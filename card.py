@@ -8,13 +8,6 @@ YELLOW_ON_BLACK = 4
 PURPLE_ON_BLACK = 5
 WHITE_ON_BLACK = 6
 
-Red_card = 0
-Green_card = 0
-Blue_card = 0
-Yellow_card = 0
-Purple_card = 0
-White_card = 0
-
 class Position(Enum):
     DECK = auto()
     DISCARD = auto()
@@ -22,12 +15,12 @@ class Position(Enum):
     PLAYED = auto()
 
 class Suit(Enum):
-    RED = auto()
-    GREEN = auto()
-    BLUE = auto()
-    YELLOW = auto()
-    PURPLE = auto()
-    WHITE = auto()
+    RED = 1
+    GREEN = 2
+    BLUE = 3
+    YELLOW = 4
+    PURPLE = 5
+    WHITE = 6
 
 
 class card:
