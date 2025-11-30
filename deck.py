@@ -4,7 +4,7 @@ import random
 class deck():
     def __init__(self, deck_cards = []):
         self.deck_cards = deck_cards
-        self.full_deck = deck_cards
+        self.full_deck = deck_cards.copy()
 
     def draw_card(self):
         if self.deck_cards:
@@ -13,6 +13,8 @@ class deck():
             return False
 
     def new_deck(self):
+        self.deck_cards.clear()
+        self.full_deck.clear()
         for suit in Suit:
             for _ in range(3):
                 temp_card1 = card(suit, 'Wager', Position.DECK)
@@ -22,6 +24,7 @@ class deck():
                 self.deck_cards.append(temp_card2)
 
         random.shuffle(self.deck_cards)
+        self.full_deck = self.deck_cards.copy()
 
     def check_end(self):
         if not self.deck_cards:

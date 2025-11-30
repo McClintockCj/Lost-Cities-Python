@@ -7,9 +7,9 @@ class player:
     def __init__(self, deck):
         self.hand_cards = []
         self.last_card = []
-        self.played_cards = [] # I will impiment this tactic for played cards also: Suit.RED :[], Suit.GREEN:[], Suit.BLUE:[], Suit.YELLOW:[], Suit.PURPLE:[], Suit.WHITE:[]
+        self.played_cards = [] # I might implement this tactic for played cards also: Suit.RED :[], Suit.GREEN:[], Suit.BLUE:[], Suit.YELLOW:[], Suit.PURPLE:[], Suit.WHITE:[]
         self.discard_cards = {Suit.RED :[], Suit.GREEN:[], Suit.BLUE:[], Suit.YELLOW:[], Suit.PURPLE:[], Suit.WHITE:[]}
-        for i in range(1, 9):
+        for _ in range(1, 9):
             temp_card = deck.draw_card()
             temp_card.set_position(Position.HAND)
             self.hand_cards.append(temp_card)
