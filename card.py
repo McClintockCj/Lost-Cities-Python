@@ -61,7 +61,7 @@ class card:
 
         parameter.attron(color_choice)
 
-        if self.num == 'Wager':
+        if self.num == 0:
             parameter.addstr(loc_y, loc_x, " ------------- ")
             parameter.addstr(loc_y + 1, loc_x, "|    WAGER    |")
             parameter.addstr(loc_y + 2, loc_x, "|             |")

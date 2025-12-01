@@ -1,5 +1,7 @@
 import curses
 
+# We don't really need the whole rulebook in the code, but if we have the time we can add it here
+
 def rulebook(parameter):
     Explore_the_lost_cities = """
     Explore_the_lost_cities

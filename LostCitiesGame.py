@@ -1,14 +1,13 @@
 import curses
+import random
 from curses import wrapper
 import time
 import rulebook
 from card import card, RED_ON_BLACK, GREEN_ON_BLACK, BLUE_ON_BLACK, YELLOW_ON_BLACK, PURPLE_ON_BLACK, WHITE_ON_BLACK, Position, Suit
 from deck import deck
-from player import player
+from player import player, screen_rows, screen_cols
 
 
-screen_rows = 52
-screen_cols = 137
 
 print (f'\x1b[8;{screen_rows};{screen_cols}t')
 time.sleep(0.1)
@@ -17,22 +16,13 @@ def print(parameter, player, deck):
     parameter.clear()
     deck.print_deck(parameter)
     player.print_hand(parameter)
-    player.print_discard(parameter)
+    deck.print_discard(parameter)
     player.print_played(parameter)
     parameter.refresh()
 
-
-# I'm going to have to impliment this differetly 
-player1_string = """ 
- _      _       _  _     _        _     _    ___      _
-|_| |  |_| |_| |_ |_|   | | |\ | |_  | |_     |  | | |_| |\ |
-|   |_ | |  _| |_ | \   |_| | \| |_     _|    |  |_| | \ | \|
-"""
-player2_string = """
- _      _       _  _   ___        _     _    ___      _
-|_| |  |_| |_| |_ |_|   |  |   | | | | |_     |  | | |_| |\ |
-|   |_ | |  _| |_ | \   |  |_|_| |_|    _|    |  |_| | \ | \|
-"""
+player1_string = [" _      _       _  _     _        _     _    ___      _     ", "|_| |  |_| |_| |_ |_|   | | |\ | |_  | |_     |  | | |_| |\ |", "|   |_ | |  _| |_ | \   |_| | \| |_     _|    |  |_| | \ | \|"]
+player2_string = [" _      _       _  _   ___        _     _    ___      _     ", "|_| |  |_| |_| |_ |_|   |  |   | | | | |_     |  | | |_| |\ |", "|   |_ | |  _| |_ | \   |  |_|_| |_|    _|    |  |_| | \ | \|"]
+end_of_game_string = [" _       _     _   _    _   _   _ _   _", "|_ |\ | | \   | | |_   |__ |_| | | | |_", "|_ | \| |_/   |_| |    |_| | | |   | |_"]
 
 
 # Deck = deck()
@@ -55,7 +45,7 @@ def main(stdscr):
     curses.init_pair(7, curses.COLOR_BLUE, curses.COLOR_WHITE)
 
     while True:
-        intro = ["Welcome to Lost Cities!", "New Game", "Rule Book", "Exit"]
+        intro = ["Welcome to Lost Cities!", "New Game", "Rule Book", "Exit", "Test"]
         loc_x = (screen_cols - 15)//2
         loc_y = 16
 
@@ -91,25 +81,43 @@ def main(stdscr):
                     stdscr.clear()
                     Deck = deck()
                     Deck.new_deck()
-                    player1 = player(Deck)
-                    player2 = player(Deck)
+                    player1 = player(Deck, 1)
+                    player2 = player(Deck, 2)
 
                     while Deck.check_end():
-                        stdscr.addstr(screen_rows//2, (screen_cols - 61)//2, player1_string, curses.A_BOLD | curses.color_pair(RED_ON_BLACK)) 
+                        for i in range(3):
+                            stdscr.addstr(screen_rows//2 + i, (screen_cols - len(player1_string[i]))//2, player1_string[i], curses.A_BOLD | curses.color_pair(RED_ON_BLACK))
                         stdscr.refresh()
                         stdscr.getch()
 
                         print(stdscr, player1, Deck)
                         player1.turn(stdscr, Deck)
                         stdscr.refresh()
+                        # time.sleep(1)
                         stdscr.clear()
 
-                        stdscr.addstr(screen_rows//2, (screen_cols - 61)//2, player2_string, curses.A_BOLD | curses.color_pair(BLUE_ON_BLACK)) 
+                        for i in range(3):
+                            stdscr.addstr(screen_rows//2 + i, (screen_cols - len(player2_string[i]))//2, player2_string[i], curses.A_BOLD | curses.color_pair(BLUE_ON_BLACK))
                         stdscr.refresh()
                         stdscr.getch()
 
                         print(stdscr, player2, Deck)
                         player2.turn(stdscr, Deck)
+                        stdscr.refresh()
+                        # time.sleep(1)
+                        stdscr.clear()
+                    else:
+                        stdscr.clear()
+                        score1 = f"Player 1 Score: {player1.score()}"
+                        score2 = f"Player 2 Score: {player2.score()}"
+                        stdscr.addstr(screen_rows//2 - 5, (screen_cols - len(score1))//2, score1, curses.A_BOLD | curses.color_pair(GREEN_ON_BLACK))
+                        stdscr.addstr(screen_rows//2 + 5, (screen_cols - len(score2))//2, score2, curses.A_BOLD | curses.color_pair(GREEN_ON_BLACK))
+                        stdscr.refresh()
+                        stdscr.getch()
+
+                        stdscr.clear()
+                        for i in range(3):
+                            stdscr.addstr(screen_rows//2 + i, (screen_cols - len(end_of_game_string[i]))//2, end_of_game_string[i], curses.A_BOLD | curses.color_pair(GREEN_ON_BLACK))
                         stdscr.refresh()
 
                 # elif idx == 2:
@@ -122,10 +130,48 @@ def main(stdscr):
                 elif idx == 3:
                     stdscr.clear()
                     while True:
-                        stdscr.addstr(0, 0, "End of Game")
+                        for i in range(3):
+                            stdscr.addstr(screen_rows//2 + i, (screen_cols - len(end_of_game_string[i]))//2, end_of_game_string[i], curses.A_BOLD | curses.color_pair(GREEN_ON_BLACK))
                         stdscr.refresh()
                         time.sleep(3)
+                        stdscr.getch()
+                        stdscr.clear()
                         break
+
+                elif idx == 4:
+                    test_suits = [Suit.RED, Suit.GREEN, Suit.BLUE]
+                    stdscr.clear()
+                    Deck = deck()
+                    for suit in test_suits:
+                        for _ in range(3):
+                            temp_card1 = card(suit, 0, Position.DECK)
+                            Deck.deck_cards.append(temp_card1)
+                        for number in range(2, 11, 2):
+                            temp_card2 = card(suit, number, Position.DECK)
+                            Deck.deck_cards.append(temp_card2)
+                    random.shuffle(Deck.deck_cards)
+                    
+                    player1 = player(Deck, 1)
+
+                    while Deck.check_end():
+                        print(stdscr, player1, Deck)
+                        player1.turn(stdscr, Deck)
+                        stdscr.refresh()
+                        stdscr.clear()
+                    else:
+                        stdscr.clear()
+                        score1 = f"Player 1 Score: {player1.score()}"
+                        stdscr.addstr(screen_rows//2 - 5, (screen_cols - len(score1))//2, score1, curses.A_BOLD | curses.color_pair(GREEN_ON_BLACK))
+                        stdscr.refresh()
+                        stdscr.getch()
+
+                        stdscr.clear()
+                        for i in range(3):
+                            stdscr.addstr(screen_rows//2 + i, (screen_cols - len(end_of_game_string[i]))//2, end_of_game_string[i], curses.A_BOLD | curses.color_pair(GREEN_ON_BLACK))
+                        stdscr.refresh()
+                        stdscr.getch()
+                        stdscr.clear()
+
 
 
                 
