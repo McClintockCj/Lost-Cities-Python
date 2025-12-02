@@ -29,33 +29,36 @@ class player:
             self.played_cards[suit] = sorted(self.played_cards[suit], key=lambda temp_card: (temp_card.num if temp_card.num != 'Wager' else 0))
 
     def hand_cordinate(self, card, index):
+        x_start = 5
+        y_start = 41
 
         if card.hand_num == index:
-            return(40, 5 + (16 * (card.hand_num-1)))
+            return(y_start, x_start + (16 * (card.hand_num-1)))
         else:
-            return (42, 5 + (16 * (card.hand_num-1)))
+            return (y_start + 2, x_start + (16 * (card.hand_num-1)))
         
     def print_hand(self, parameter, index=0):
         for card in self.hand_cards:
             card.cardprint(parameter, self.hand_cordinate(card, index)[0], self.hand_cordinate(card, index)[1])
 
     def print_played(self, parameter):
-        x_start = 11
+        y_start = 12
+        x_start = 5
         self.sort_played()
         for key in self.played_cards.keys():
             for card in self.played_cards.get(key):
                 if card.suit == Suit.RED:
-                    card.cardprint(parameter, x_start + (2 * self.played_cards[Suit.RED].index(card)), 5)
+                    card.cardprint(parameter, y_start + (2 * self.played_cards[Suit.RED].index(card)), x_start)
                 elif card.suit == Suit.GREEN:
-                    card.cardprint(parameter, x_start + (2 * self.played_cards[Suit.GREEN].index(card)), 21)
+                    card.cardprint(parameter, y_start + (2 * self.played_cards[Suit.GREEN].index(card)), x_start + 16)
                 elif card.suit == Suit.BLUE:
-                    card.cardprint(parameter, x_start + (2 * self.played_cards[Suit.BLUE].index(card)), 37)
+                    card.cardprint(parameter, y_start + (2 * self.played_cards[Suit.BLUE].index(card)), x_start + (16 * 2))
                 elif card.suit == Suit.YELLOW:
-                    card.cardprint(parameter, x_start + (2 * self.played_cards[Suit.YELLOW].index(card)), 53)
+                    card.cardprint(parameter, y_start + (2 * self.played_cards[Suit.YELLOW].index(card)), x_start + (16 * 3))
                 elif card.suit == Suit.PURPLE:
-                    card.cardprint(parameter, x_start + (2 * self.played_cards[Suit.PURPLE].index(card)), 69)
+                    card.cardprint(parameter, y_start + (2 * self.played_cards[Suit.PURPLE].index(card)), x_start + (16 * 4))
                 elif card.suit == Suit.WHITE:
-                    card.cardprint(parameter, x_start + (2 * self.played_cards[Suit.WHITE].index(card)), 85)
+                    card.cardprint(parameter, y_start + (2 * self.played_cards[Suit.WHITE].index(card)), x_start + (16 * 5))
         
     
     def score(self):
@@ -84,79 +87,6 @@ class player:
             total_score += ((score_info[key]["score"] - score_info[key]["neg"]) * score_info[key]["wage"]) + score_info[key]["bonus"]
 
         return total_score
-
-    # def score(self):
-    #     R_score = 0
-    #     R_wage = 1
-    #     R_neg = 0
-    #     R_count = 0
-
-    #     G_score = 0
-    #     G_wage = 1
-    #     G_neg = 0
-    #     G_count = 0
-
-    #     B_score = 0
-    #     B_wage = 1
-    #     B_neg = 0
-    #     B_count = 0
-
-    #     Y_score = 0
-    #     Y_wage = 1
-    #     Y_neg = 0
-    #     Y_count = 0
-
-    #     P_score = 0
-    #     P_wage = 1
-    #     P_neg = 0
-    #     P_count = 0
-
-    #     W_score = 0
-    #     W_wage = 1
-    #     W_neg = 0
-    #     W_count = 0
-
-    #     for key in self.played_cards.keys():
-    #         for card in self.played_cards.get(key):
-    #                 if card.suit == Suit.RED:
-    #                     R_count += 1
-    #                     R_neg = 20
-    #                     if card.num == 0:
-    #                         R_wage += 1
-    #                     R_score += card.num
-    #                 if card.suit == Suit.GREEN:
-    #                     G_count += 1
-    #                     G_neg = 20
-    #                     if card.num == 0:
-    #                         G_wage += 1
-    #                     G_score += card.num
-    #                 if card.suit == Suit.BLUE:
-    #                     B_count += 1
-    #                     B_neg = 20
-    #                     if card.num == 0:
-    #                         B_wage += 1
-    #                     B_score += card.num
-    #                 if card.suit == Suit.YELLOW:
-    #                     Y_count += 1
-    #                     Y_neg = 20
-    #                     if card.num == 0:
-    #                         Y_wage += 1
-    #                     Y_score += card.num
-    #                 if card.suit == Suit.PURPLE:
-    #                     P_count += 1
-    #                     P_neg = 20
-    #                     if card.num == 0:
-    #                         P_wage += 1
-    #                     P_score += card.num
-    #                 if card.suit == Suit.WHITE:
-    #                     W_count += 1
-    #                     W_neg = 20
-    #                     if card.num == 0:
-    #                         W_wage += 1
-    #                     W_score += card.num
-
-    #     total_score = (((R_score - R_neg) * R_wage) + R_count) + (((G_score - G_neg) * G_wage) + G_count) + (((B_score - B_neg) * B_wage) + B_count) + (((Y_score - Y_neg) * Y_wage) + Y_count) + (((P_score - P_neg) * P_wage) + P_count) + (((W_score - W_neg) * W_wage) + W_count)
-    #     return total_score
 
         
     def turn(self, parameter, deck):
@@ -250,9 +180,9 @@ class player:
 
 
     def draw_to_hand(self, parameter, deck):
-        indx = 7
+        index = 7
         parameter.clear()
-        deck.print_deck(parameter, indx)
+        deck.print_deck(parameter, index)
         self.print_hand(parameter)
         self.print_played(parameter)
         deck.print_discard(parameter)
@@ -265,28 +195,28 @@ class player:
             crc = parameter.getch()
 
             if (crc == curses.KEY_RIGHT):
-                if indx == 7:
-                    indx = 1
+                if index == 7:
+                    index = 1
                 else:
-                    indx += 1
-                while (indx != 7 and len(deck.discard_cards[Suit(indx)]) < 1):
-                    indx += 1
+                    index += 1
+                while (index != 7 and len(deck.discard_cards[Suit(index)]) < 1):
+                    index += 1
             
             if (crc == curses.KEY_LEFT):
-                if indx == 1:
-                    indx = 7
+                if index == 1:
+                    index = 7
                 else:
-                    indx -= 1
-                    while (indx != 7 and len(deck.discard_cards[Suit(indx)]) < 1):
-                        if indx == 1:
-                            indx = 7
+                    index -= 1
+                    while (index != 7 and len(deck.discard_cards[Suit(index)]) < 1):
+                        if index == 1:
+                            index = 7
                             break
                         else:
-                            indx -= 1
+                            index -= 1
                 
             
             if (crc == curses.KEY_DOWN):
-                if indx == 7:
+                if index == 7:
                     temp_card = deck.draw_card()
                     temp_card.set_position(Position.HAND)
                     self.hand_cards.append(temp_card)
@@ -295,12 +225,12 @@ class player:
                 else:
                     # I love shortening code like this
                     temp_card = 0
-                    if (len(deck.discard_cards[Suit(indx)]) > 0):
-                        temp_card = deck.discard_cards[Suit(indx)][len(deck.discard_cards[Suit(indx)]) - 1]
+                    if (len(deck.discard_cards[Suit(index)]) > 0):
+                        temp_card = deck.discard_cards[Suit(index)][len(deck.discard_cards[Suit(index)]) - 1]
                         if (temp_card == deck.last_card):
                             parameter.addstr(11, 60, "Invalid", curses.color_pair(7))
                             continue
-                        temp_card = deck.discard_cards[Suit(indx)].pop()
+                        temp_card = deck.discard_cards[Suit(index)].pop()
                         temp_card.set_position(Position.HAND)
                         self.hand_cards.append(temp_card)
                         self.sort_hand()
@@ -310,10 +240,10 @@ class player:
                     
 
             parameter.clear()
-            deck.print_deck(parameter, indx)
+            deck.print_deck(parameter, index)
             self.print_hand(parameter)
             self.print_played(parameter)
-            deck.print_discard(parameter, indx)
+            deck.print_discard(parameter, index)
             parameter.refresh()
 
         # Added so that if we break out of the loop, it still reprints right away

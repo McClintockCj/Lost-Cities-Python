@@ -1,3 +1,4 @@
+import curses
 from card import card, RED_ON_BLACK, GREEN_ON_BLACK, BLUE_ON_BLACK, YELLOW_ON_BLACK, PURPLE_ON_BLACK, WHITE_ON_BLACK, Position, Suit
 import random
 
@@ -95,51 +96,73 @@ class deck():
     def print_discard(self, parameter, index = 0):
         cord_x = 5
         cord_y = 1
-        for key in self.discard_cards:
-            if key == Suit.RED and self.discard_cards[Suit.RED]:
-                if index == 1 and len(self.discard_cards[Suit.RED]) > 0:
-                    self.discard_cards[Suit.RED][len(self.discard_cards[Suit.RED]) - 1].cardprint(parameter, cord_y + 2, cord_x)
-                elif (len(self.discard_cards[Suit.RED]) > 0):
-                    self.discard_cards[Suit.RED][len(self.discard_cards[Suit.RED]) - 1].cardprint(parameter, cord_y, cord_x)   
-                else:
-                    self.discard_cards[Suit.RED][0].cardprint(parameter, cord_y, cord_x)
 
-            if key == Suit.GREEN and self.discard_cards[Suit.GREEN]:
-                if index == 2 and len(self.discard_cards[Suit.GREEN]) > 0:
-                    self.discard_cards[Suit.GREEN][len(self.discard_cards[Suit.GREEN]) - 1].cardprint(parameter, cord_y + 2, (cord_x + (16)))
-                elif (len(self.discard_cards[Suit.GREEN]) > 0):
-                    self.discard_cards[Suit.GREEN][len(self.discard_cards[Suit.GREEN]) - 1].cardprint(parameter, cord_y, (cord_x + (16)))   
-                else:
-                    self.discard_cards[Suit.GREEN][0].cardprint(parameter, cord_y, cord_x)
+        color_choice = curses.A_NORMAL
+        
+        for key in self.discard_cards.keys():
+            color_choice = curses.color_pair(key.value)
+            if (len(self.discard_cards[key]) > 0):
+                if key.value == index:
+                    self.discard_cards[key][-1].cardprint(parameter, cord_y + 2, cord_x + (16 * (key.value -1)))
 
-            if key == Suit.BLUE and self.discard_cards[Suit.BLUE]:
-                if index == 3 and len(self.discard_cards[Suit.BLUE]) > 0:
-                    self.discard_cards[Suit.BLUE][len(self.discard_cards[Suit.BLUE]) - 1].cardprint(parameter, cord_y + 2, (cord_x + (16 * 2)))
-                elif (len(self.discard_cards[Suit.BLUE]) > 0):
-                    self.discard_cards[Suit.BLUE][len(self.discard_cards[Suit.BLUE]) - 1].cardprint(parameter, cord_y, (cord_x + (16 * 2)))
+                    if len(self.discard_cards[key]) > 1:
+                        for i, card in enumerate(self.discard_cards[key][:-1]):
+                            if card.num == 0:
+                                parameter.addstr(cord_y + 1, cord_x + (16 * (key.value -1)) + (i*2) + 1, "W|", color_choice | curses.A_UNDERLINE)
+                            else:
+                                parameter.addstr(cord_y + 1, cord_x + (16 * (key.value -1)) + (i*2) + 1, f"{card.num}|", color_choice | curses.A_UNDERLINE)
                 else:
-                    self.discard_cards[Suit.BLUE][0].cardprint(parameter, cord_y, (cord_x + (16 * 2)))
+                    self.discard_cards[key][-1].cardprint(parameter, cord_y, cord_x + (16 * (key.value -1)))
+            
 
-            if key == Suit.YELLOW and self.discard_cards[Suit.YELLOW]:
-                if index == 4 and len(self.discard_cards[Suit.YELLOW]) > 0:
-                    self.discard_cards[Suit.YELLOW][len(self.discard_cards[Suit.YELLOW]) - 1].cardprint(parameter, cord_y + 2, (cord_x + (16 * 3)))
-                elif (len(self.discard_cards[Suit.YELLOW]) > 0):
-                    self.discard_cards[Suit.YELLOW][len(self.discard_cards[Suit.YELLOW]) - 1].cardprint(parameter, cord_y, (cord_x + (16 * 3)))
-                else:
-                    self.discard_cards[Suit.YELLOW][0].cardprint(parameter, cord_y, (cord_x + (16 * 3)))
 
-            if key == Suit.PURPLE and self.discard_cards[Suit.PURPLE]:
-                if index == 5 and len(self.discard_cards[Suit.PURPLE]) > 0:
-                    self.discard_cards[Suit.PURPLE][len(self.discard_cards[Suit.PURPLE]) - 1].cardprint(parameter, cord_y + 2, (cord_x + (16 * 4)))
-                elif (len(self.discard_cards[Suit.PURPLE]) > 0):
-                    self.discard_cards[Suit.PURPLE][len(self.discard_cards[Suit.PURPLE]) - 1].cardprint(parameter, cord_y, (cord_x + (16 * 4)))
-                else:
-                    self.discard_cards[Suit.PURPLE][0].cardprint(parameter, cord_y, (cord_x + (16 * 4)))
 
-            if key == Suit.WHITE and self.discard_cards[Suit.WHITE]:
-                if index == 6 and len(self.discard_cards[Suit.WHITE]) > 0:
-                    self.discard_cards[Suit.WHITE][len(self.discard_cards[Suit.WHITE]) - 1].cardprint(parameter, cord_y + 2, (cord_x + (16 * 5)))
-                elif (len(self.discard_cards[Suit.WHITE]) > 0):
-                    self.discard_cards[Suit.WHITE][len(self.discard_cards[Suit.WHITE]) - 1].cardprint(parameter, cord_y, (cord_x + (16 * 5)))
-                else:
-                    self.discard_cards[Suit.WHITE][0].cardprint(parameter, cord_y, (cord_x + (16 * 5)))
+
+        # for key in self.discard_cards:
+        #     if key == Suit.RED and self.discard_cards[Suit.RED]:
+        #         if index == 1 and len(self.discard_cards[Suit.RED]) > 0:
+        #             self.discard_cards[Suit.RED][len(self.discard_cards[Suit.RED]) - 1].cardprint(parameter, cord_y + 2, cord_x)
+        #         elif (len(self.discard_cards[Suit.RED]) > 0):
+        #             self.discard_cards[Suit.RED][len(self.discard_cards[Suit.RED]) - 1].cardprint(parameter, cord_y, cord_x)   
+        #         else:
+        #             self.discard_cards[Suit.RED][0].cardprint(parameter, cord_y, cord_x)
+
+        #     if key == Suit.GREEN and self.discard_cards[Suit.GREEN]:
+        #         if index == 2 and len(self.discard_cards[Suit.GREEN]) > 0:
+        #             self.discard_cards[Suit.GREEN][len(self.discard_cards[Suit.GREEN]) - 1].cardprint(parameter, cord_y + 2, (cord_x + (16)))
+        #         elif (len(self.discard_cards[Suit.GREEN]) > 0):
+        #             self.discard_cards[Suit.GREEN][len(self.discard_cards[Suit.GREEN]) - 1].cardprint(parameter, cord_y, (cord_x + (16)))   
+        #         else:
+        #             self.discard_cards[Suit.GREEN][0].cardprint(parameter, cord_y, cord_x)
+
+        #     if key == Suit.BLUE and self.discard_cards[Suit.BLUE]:
+        #         if index == 3 and len(self.discard_cards[Suit.BLUE]) > 0:
+        #             self.discard_cards[Suit.BLUE][len(self.discard_cards[Suit.BLUE]) - 1].cardprint(parameter, cord_y + 2, (cord_x + (16 * 2)))
+        #         elif (len(self.discard_cards[Suit.BLUE]) > 0):
+        #             self.discard_cards[Suit.BLUE][len(self.discard_cards[Suit.BLUE]) - 1].cardprint(parameter, cord_y, (cord_x + (16 * 2)))
+        #         else:
+        #             self.discard_cards[Suit.BLUE][0].cardprint(parameter, cord_y, (cord_x + (16 * 2)))
+
+        #     if key == Suit.YELLOW and self.discard_cards[Suit.YELLOW]:
+        #         if index == 4 and len(self.discard_cards[Suit.YELLOW]) > 0:
+        #             self.discard_cards[Suit.YELLOW][len(self.discard_cards[Suit.YELLOW]) - 1].cardprint(parameter, cord_y + 2, (cord_x + (16 * 3)))
+        #         elif (len(self.discard_cards[Suit.YELLOW]) > 0):
+        #             self.discard_cards[Suit.YELLOW][len(self.discard_cards[Suit.YELLOW]) - 1].cardprint(parameter, cord_y, (cord_x + (16 * 3)))
+        #         else:
+        #             self.discard_cards[Suit.YELLOW][0].cardprint(parameter, cord_y, (cord_x + (16 * 3)))
+
+        #     if key == Suit.PURPLE and self.discard_cards[Suit.PURPLE]:
+        #         if index == 5 and len(self.discard_cards[Suit.PURPLE]) > 0:
+        #             self.discard_cards[Suit.PURPLE][len(self.discard_cards[Suit.PURPLE]) - 1].cardprint(parameter, cord_y + 2, (cord_x + (16 * 4)))
+        #         elif (len(self.discard_cards[Suit.PURPLE]) > 0):
+        #             self.discard_cards[Suit.PURPLE][len(self.discard_cards[Suit.PURPLE]) - 1].cardprint(parameter, cord_y, (cord_x + (16 * 4)))
+        #         else:
+        #             self.discard_cards[Suit.PURPLE][0].cardprint(parameter, cord_y, (cord_x + (16 * 4)))
+
+        #     if key == Suit.WHITE and self.discard_cards[Suit.WHITE]:
+        #         if index == 6 and len(self.discard_cards[Suit.WHITE]) > 0:
+        #             self.discard_cards[Suit.WHITE][len(self.discard_cards[Suit.WHITE]) - 1].cardprint(parameter, cord_y + 2, (cord_x + (16 * 5)))
+        #         elif (len(self.discard_cards[Suit.WHITE]) > 0):
+        #             self.discard_cards[Suit.WHITE][len(self.discard_cards[Suit.WHITE]) - 1].cardprint(parameter, cord_y, (cord_x + (16 * 5)))
+        #         else:
+        #             self.discard_cards[Suit.WHITE][0].cardprint(parameter, cord_y, (cord_x + (16 * 5)))

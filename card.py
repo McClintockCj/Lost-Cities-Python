@@ -46,18 +46,9 @@ class card:
 
         color_choice = curses.A_NORMAL
 
-        if self.suit == Suit.RED:
-            color_choice = curses.color_pair(RED_ON_BLACK)
-        elif self.suit == Suit.GREEN:
-            color_choice = curses.color_pair(GREEN_ON_BLACK)
-        elif self.suit == Suit.BLUE:
-            color_choice = curses.color_pair(BLUE_ON_BLACK)
-        elif self.suit == Suit.YELLOW:
-            color_choice = curses.color_pair(YELLOW_ON_BLACK)
-        elif self.suit == Suit.PURPLE:
-            color_choice = curses.color_pair(PURPLE_ON_BLACK)
-        elif self.suit == Suit.WHITE:
-            color_choice = curses.color_pair(WHITE_ON_BLACK)
+        for suit in Suit:
+            if self.suit == suit:
+                color_choice = curses.color_pair(suit.value)
 
         parameter.attron(color_choice)
 

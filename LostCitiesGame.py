@@ -24,11 +24,6 @@ player1_string = [" _      _       _  _     _        _     _    ___      _     "
 player2_string = [" _      _       _  _   ___        _     _    ___      _     ", "|_| |  |_| |_| |_ |_|   |  |   | | | | |_     |  | | |_| |\ |", "|   |_ | |  _| |_ | \   |  |_|_| |_|    _|    |  |_| | \ | \|"]
 end_of_game_string = [" _       _     _   _    _   _   _ _   _", "|_ |\ | | \   | | |_   |__ |_| | | | |_", "|_ | \| |_/   |_| |    |_| | | |   | |_"]
 
-
-# Deck = deck()
-
-# player1 = player(Deck)
-
 def main(stdscr):
     stdscr.clear()
     curses.curs_set(0)
@@ -173,31 +168,6 @@ def main(stdscr):
                         stdscr.getch()
                         stdscr.clear()
 
-
-
-                
-
-        stdscr.refresh()
-
-        
-
-
-        while Deck.check_end():
-            Deck.print_deck(stdscr)
-            player1.print_hand(stdscr)
-            player1.print_played(stdscr)
-            player1.turn(stdscr, Deck)
-            stdscr.refresh()
-        else:
-            stdscr.clear()
-            while True:
-                stdscr.addstr(0, 0, "End of Game")
-                stdscr.refresh()
-                time.sleep(3)
-                break
-
-
-    
 
 wrapper(main)
 
