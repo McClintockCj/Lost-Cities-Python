@@ -60,9 +60,10 @@ class player:
     
     def score(self):
         total_score = 0
+        score_info = {}
         for suit in [Suit.RED, Suit.GREEN, Suit.BLUE, Suit.YELLOW, Suit.PURPLE, Suit.WHITE]:
-            score_info = {suit: {"score": 0, "wage": 1, "neg": 0, "count": 0, "bonus": 0}}
-                          
+            score_info[suit] = {"score": 0, "wage": 1, "neg": 0, "count": 0, "bonus": 0}
+        
         for key in self.played_cards.keys():
             for card in self.played_cards.get(key):
                 if card.suit == key:
