@@ -1,50 +1,90 @@
 import curses
-
+from player import screen_cols
 # We don't really need the whole rulebook in the code, but if we have the time we can add it here
 
 def rulebook(parameter):
-    Explore_the_lost_cities = """
-    Explore_the_lost_cities
-        Place your cards to form expedition routes that lead
-        you to remote and mysterious corners of the world:
-        the Himalayan mountains, the Central American
-        rainforest, the Egyptian desert, a mysterious volcano,
-        and the bottom of the sea. Particularly daring
-        players can also make a bet on the success of their
-        expeditions. If after three games you have the highest
-        overall score, you win.
-        Note: The game rules are very simple. But don't get
-        the wrong impression — there is much more to Lost
-        Cities than it might seem at first glance!
+    parameter.clear()
+
+    rulebook_1 = """
+        ================================================================
+                            LOST CITIES - PYTHON EDITION
+        ================================================================
+
+        OBJECTIVE:
+        Mount profitable expeditions to the five Lost Cities (Himalayas, 
+        Rainforest, Desert, Volcano, and Neptune). 
+
+        To succeed, you must play cards in ascending order for each color. 
+        However, starting an expedition costs points, so ensure you make 
+        enough progress to turn a profit!
+
+        ----------------------------------------------------------------
+                            HOW TO PLAY
+        ----------------------------------------------------------------
+        The game consists of cards numbered 2-10 in 5 colors, plus 3
+        Wager cards per color.
+
+        1. STARTING AN EXPEDITION:
+        - You build expeditions by playing cards of the matching color.
+        - Cards must be played in ASCENDING numeric order (e.g., you 
+            cannot play a 4 after a 7).
+        - Wager cards represent investments. They multiply your 
+            score but must be played BEFORE any number cards of that color.
+
+        2. TURN SEQUENCE:
+        A turn consists of two phases: 
+        (A) Play or Discard a card.
+        (B) Draw a new card.
         """
 
-    Game_Components = """
-    Game Components:
-        • 1 Game board
-        • 60 Playing cards:
+    rulebook_2 = """
+        ----------------------------------------------------------------
+                                CONTROLS
+        ----------------------------------------------------------------
+        PHASE 1: ACTION (Play or Discard)
+        [LEFT] / [RIGHT] : Highlight a card in your hand.
+        [DOWN] ARROW     : PLAY the selected card to its expedition.
+        [UP] ARROW       : DISCARD the selected card to the central pile.
 
-        • 45 Expedition cards
-            (values indicated on the 
-            cards: 2-10; in five colors)
+        PHASE 2: DRAW
+        [LEFT] / [RIGHT] : Select a pile to draw from (Main Deck or 
+                            any of the 5 Color Discard Piles).
+                            *Note: You cannot draw a card you just discarded.
+        [DOWN] ARROW     : CONFIRM DRAW to end your turn.
 
-        • 15 Wager cards (three of each color)  
+        ----------------------------------------------------------------
+                                SCORING
+        ----------------------------------------------------------------
+        At the end of the game, each color/expedition is scored separately:
+
+        1. SUM: Add up the values of all number cards in the expedition.
+        2. COST: Subtract 20 points (the cost of starting an expedition).
+        * If you played NO cards for a color, the score is 0.
+        3. MULTIPLIER: 
+        - 1 Handshake card  = Score x 2
+        - 2 Handshake cards = Score x 3
+        - 3 Handshake cards = Score x 4
+        4. BONUS: If an expedition has 8 or more cards, add +20 points 
+        (after the multiplier calculation).
+
+        SCORING EXAMPLES:
+        - Cards: [Handshake, 2, 5, 10]
+        Su
+        - Cards: [4, 6, 7, 8]
+        Sum: 25. Cost: -20. Net: 5. No Multiplier. Final = 5.
+
+        =====m: 17. Cost: -20. Net: -3. Multiplier (x2): Final = -6.
+    ===========================================================
         """
+    count = 1
+    for line in rulebook_1.splitlines():
+            parameter.addstr(count, 1, line)
+            count += 1
 
-    Object_of_the_Game = """
-    Object of the Game:
-    Both players' goal is to form expedition routes that —
-    after subtracting the expedition costs — earn them as
-    many discovery points as possible. You set up the
-    expeditions by forming a separate column of cards for
-    each color. The numeric values within a column of
-    cards must increase from card to card. You can place
-    wager cards at the beginning of each column to
-    multiply a column's value. At the end of the game, the
-    cards in each player's columns are scored.
-    """
+    count = 1
+    for line in rulebook_2.splitlines():
+            parameter.addstr(count, (screen_cols // 2), line)
+            count += 1
 
-
-
-    parameter.addstr(1, 1, Explore_the_lost_cities)
-    parameter.addstr(13, 1, Game_Components)
-    parameter.addstr(22, 1, Object_of_the_Game)
+    parameter.refresh()
+    parameter.getch()

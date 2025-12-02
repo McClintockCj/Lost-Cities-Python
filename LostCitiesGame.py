@@ -120,12 +120,11 @@ def main(stdscr):
                             stdscr.addstr(screen_rows//2 + i, (screen_cols - len(end_of_game_string[i]))//2, end_of_game_string[i], curses.A_BOLD | curses.color_pair(GREEN_ON_BLACK))
                         stdscr.refresh()
 
-                # elif idx == 2:
-                #     stdscr.clear()
-                #     stdscr.addstr(0, 0, "Exiting Game...")
-                #     stdscr.refresh()
-                #     time.sleep(1)
-                #     return
+                elif idx == 2:
+                    rulebook.rulebook(stdscr)
+                    stdscr.clear()
+                    stdscr.refresh()
+                    return
 
                 elif idx == 3:
                     stdscr.clear()
