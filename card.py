@@ -59,9 +59,9 @@ class card:
             parameter.addstr(loc_y + 3, loc_x, "|             |")
             parameter.addstr(loc_y + 4, loc_x, "|             |")
             parameter.addstr(loc_y + 5, loc_x, "|             |")
-            parameter.addstr(loc_y + 6, loc_x, "|             |")
-            parameter.addstr(loc_y + 7, loc_x, "|    WAGER    |")
-            parameter.addstr(loc_y + 8, loc_x, " ------------- ")
+            #parameter.addstr(loc_y + 6, loc_x, "|             |")
+            parameter.addstr(loc_y + 6, loc_x, "|    WAGER    |")
+            parameter.addstr(loc_y + 7, loc_x, " ------------- ")
 
         elif self.num < 10:
             parameter.addstr(loc_y, loc_x, " ------------- ")
@@ -70,9 +70,9 @@ class card:
             parameter.addstr(loc_y + 3, loc_x, "|             |")
             parameter.addstr(loc_y + 4, loc_x, "|             |")
             parameter.addstr(loc_y + 5, loc_x, "|             |")
-            parameter.addstr(loc_y + 6, loc_x, "|             |")
-            parameter.addstr(loc_y + 7, loc_x, f"|           {self.num} |")
-            parameter.addstr(loc_y + 8, loc_x, " ------------- ")
+            #parameter.addstr(loc_y + 6, loc_x, "|             |")
+            parameter.addstr(loc_y + 6, loc_x, f"|           {self.num} |")
+            parameter.addstr(loc_y + 7, loc_x, " ------------- ")
         else:
             parameter.addstr(loc_y, loc_x, " ------------- ")
             parameter.addstr(loc_y + 1, loc_x, f"| {self.num}          |")
@@ -80,9 +80,9 @@ class card:
             parameter.addstr(loc_y + 3, loc_x, "|             |")
             parameter.addstr(loc_y + 4, loc_x, "|             |")
             parameter.addstr(loc_y + 5, loc_x, "|             |")
-            parameter.addstr(loc_y + 6, loc_x, "|             |")
-            parameter.addstr(loc_y + 7, loc_x, f"|          {self.num} |")
-            parameter.addstr(loc_y + 8, loc_x, " ------------- ")
+            #parameter.addstr(loc_y + 6, loc_x, "|             |")
+            parameter.addstr(loc_y + 6, loc_x, f"|          {self.num} |")
+            parameter.addstr(loc_y + 7, loc_x, " ------------- ")
 
         parameter.attroff(color_choice)
 

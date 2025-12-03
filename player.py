@@ -3,7 +3,7 @@ import time
 from card import card, RED_ON_BLACK, GREEN_ON_BLACK, BLUE_ON_BLACK, YELLOW_ON_BLACK, PURPLE_ON_BLACK, WHITE_ON_BLACK, Position, Suit
 
 # Moved here to avoid circular import
-screen_rows = 52
+screen_rows = 48
 screen_cols = 137
 
 class player:
@@ -30,7 +30,7 @@ class player:
 
     def hand_cordinate(self, card, index):
         x_start = 5
-        y_start = 41
+        y_start = screen_rows - 10
 
         if card.hand_num == index:
             return(y_start, x_start + (16 * (card.hand_num-1)))
@@ -42,7 +42,7 @@ class player:
             card.cardprint(parameter, self.hand_cordinate(card, index)[0], self.hand_cordinate(card, index)[1])
 
     def print_played(self, parameter):
-        y_start = 12
+        y_start = screen_rows - 38
         x_start = 5
         self.sort_played()
         for key in self.played_cards.keys():

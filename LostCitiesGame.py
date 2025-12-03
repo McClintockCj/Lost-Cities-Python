@@ -20,9 +20,9 @@ def print(parameter, player, deck):
     player.print_played(parameter)
     parameter.refresh()
 
-player1_string = [" _      _       _  _     _        _     _    ___      _     ", "|_| |  |_| |_| |_ |_|   | | |\ | |_  | |_     |  | | |_| |\ |", "|   |_ | |  _| |_ | \   |_| | \| |_     _|    |  |_| | \ | \|"]
-player2_string = [" _      _       _  _   ___        _     _    ___      _     ", "|_| |  |_| |_| |_ |_|   |  |   | | | | |_     |  | | |_| |\ |", "|   |_ | |  _| |_ | \   |  |_|_| |_|    _|    |  |_| | \ | \|"]
-end_of_game_string = [" _       _     _   _    _   _   _ _   _", "|_ |\ | | \   | | |_   |__ |_| | | | |_", "|_ | \| |_/   |_| |    |_| | | |   | |_"]
+player1_string = [" _      _       _  _     _        _     _    ___      _     ", "|_| |  |_| |_| |_ |_|   | | |\\ | |_  | |_     |  | | |_| |\\ |", "|   |_ | |  _| |_ | \\   |_| | \\| |_     _|    |  |_| | \\ | \\|"]
+player2_string = [" _      _       _  _   ___        _     _    ___      _     ", "|_| |  |_| |_| |_ |_|   |  |   | | | | |_     |  | | |_| |\\ |", "|   |_ | |  _| |_ | \\   |  |_|_| |_|    _|    |  |_| | \\ | \\|"]
+end_of_game_string = [" _       _     _   _    _   _   _ _   _", "|_ |\\ | | \\   | | |_   |__ |_| | | | |_", "|_ | \\| |_/   |_| |    |_| | | |   | |_"]
 
 def main(stdscr):
     stdscr.clear()
@@ -42,7 +42,7 @@ def main(stdscr):
     while True:
         intro = ["Welcome to Lost Cities!", "New Game", "Rule Book", "Exit", "Test"]
         loc_x = (screen_cols - 15)//2
-        loc_y = 16
+        loc_y = 15
 
         idx = 1
         while True:
@@ -135,17 +135,17 @@ def main(stdscr):
                         break
 
                 elif idx == 4:
-                    test_suits = [Suit.RED, Suit.GREEN, Suit.BLUE]
+                    test_suits = [Suit.RED, Suit.RED, Suit.RED]
                     stdscr.clear()
                     Deck = deck()
                     for suit in test_suits:
                         for _ in range(3):
                             temp_card1 = card(suit, 0, Position.DECK)
                             Deck.deck_cards.append(temp_card1)
-                        for number in range(2, 11, 2):
+                        for number in range(2, 11):
                             temp_card2 = card(suit, number, Position.DECK)
                             Deck.deck_cards.append(temp_card2)
-                    random.shuffle(Deck.deck_cards)
+                    #random.shuffle(Deck.deck_cards)
                     
                     player1 = player(Deck, 1)
 
