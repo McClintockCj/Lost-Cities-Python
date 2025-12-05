@@ -93,14 +93,14 @@ class player:
         index = 1
         parameter.clear()
         deck.print_deck(parameter)
-        self.print_hand(parameter, index)
         self.print_played(parameter)
+        self.print_hand(parameter, index)
         deck.print_discard(parameter)
         parameter.refresh()
 
         while True:
             comments = 0
-            parameter.addstr(0, 0, "Mode: PLAY", curses.color_pair(7))
+            parameter.addstr(1, screen_cols- len("Mode: PLAY"), "Mode: PLAY", curses.color_pair(7))
             parameter.addstr(5, 120, "<-- DISCARD", curses.color_pair(7))
             parameter.addstr(14, 101, "<-- PLAYED CARDS", curses.color_pair(7))
             parameter.addstr(0, screen_cols - len(f"Player {self.player_num}"),  f"Player {self.player_num}", curses.color_pair(7))
@@ -124,8 +124,8 @@ class player:
                 deck.discard(index, self.hand_cards)
                 parameter.clear()
                 deck.print_deck(parameter)
-                self.print_hand(parameter, index)
                 self.print_played(parameter)
+                self.print_hand(parameter, index)
                 deck.print_discard(parameter)
                 parameter.refresh()
                 self.draw_to_hand(parameter, deck)
@@ -135,8 +135,8 @@ class player:
                 if self.play(index):
                     parameter.clear()
                     deck.print_deck(parameter)
-                    self.print_hand(parameter, index)
                     self.print_played(parameter)
+                    self.print_hand(parameter, index)
                     deck.print_discard(parameter)
                     parameter.refresh()
                     self.draw_to_hand(parameter, deck)
@@ -146,11 +146,11 @@ class player:
                     parameter.refresh()
 
             parameter.clear()
+            self.print_played(parameter)
+            self.print_hand(parameter, index)
             if comments == 1:
                 parameter.addstr(screen_rows - 1, 0, "The card must have a larger value then the previous played card of that suit.", curses.color_pair(7) | curses.A_BOLD)
             deck.print_deck(parameter)
-            self.print_hand(parameter, index)
-            self.print_played(parameter)
             deck.print_discard(parameter)
             parameter.refresh()
 
@@ -188,7 +188,7 @@ class player:
         deck.print_discard(parameter)
         parameter.refresh()
         while True:
-            parameter.addstr(0, 0, "Mode: DRAW", curses.color_pair(7))
+            parameter.addstr(1, screen_cols- len("Mode: DRAW"), "Mode: DRAW", curses.color_pair(7))
             parameter.addstr(5, 120, "<-- DISCARD", curses.color_pair(7))
             parameter.addstr(14, 101, "<-- PLAYED CARDS", curses.color_pair(7)) 
             parameter.addstr(0, screen_cols - len(f"Player {self.player_num}"),  f"Player {self.player_num}", curses.color_pair(7))
@@ -223,7 +223,6 @@ class player:
                     self.sort_hand()
                     break
                 else:
-                    # I love shortening code like this
                     temp_card = 0
                     if (len(deck.discard_cards[Suit(index)]) > 0):
                         temp_card = deck.discard_cards[Suit(index)][len(deck.discard_cards[Suit(index)]) - 1]
