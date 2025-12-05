@@ -3,6 +3,11 @@ from player import screen_cols
 # We don't really need the whole rulebook in the code, but if we have the time we can add it here
 
 def rulebook(parameter):
+    """
+    This function displays the rulebook in the given curses window.
+    Parameters:
+    parameter: The curses window where the rulebook will be displayed.
+    """
     parameter.clear()
 
     rulebook_1 = """

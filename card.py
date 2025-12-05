@@ -1,6 +1,7 @@
 import curses
 from enum import Enum, auto
 
+# Color Pairs
 RED_ON_BLACK = 1
 GREEN_ON_BLACK = 2
 BLUE_ON_BLACK = 3
@@ -8,13 +9,17 @@ YELLOW_ON_BLACK = 4
 PURPLE_ON_BLACK = 5
 WHITE_ON_BLACK = 6
 
-class Position(Enum):
-    DECK = auto()
-    DISCARD = auto()
-    HAND = auto()
-    PLAYED = auto()
-
 class Suit(Enum):
+    """
+    Enumeration for the different suits/colors in the Lost Cities game.
+    Attributes:
+        RED (int): Represents the RED suit.
+        GREEN (int): Represents the GREEN suit.
+        BLUE (int): Represents the BLUE suit.
+        YELLOW (int): Represents the YELLOW suit.
+        PURPLE (int): Represents the PURPLE suit.
+        WHITE (int): Represents the WHITE suit.
+    """
     RED = 1
     GREEN = 2
     BLUE = 3
@@ -24,23 +29,29 @@ class Suit(Enum):
 
 
 class card:
+    """
+    the card class represents a single card in the Lost Cities game.
 
-    def __init__(self, suit, num, position = Position.DECK, hand_num = 0):
+    Attributes:
+        suit (Suit): The color/suit of the card (RED, GREEN, BLUE, YELLOW, PURPLE, WHITE).
+        num (int): The number on the card (0 for Wager cards, 2-10 for number cards).
+        hand_num (int): The index of the card in a player's hand (if applicable).
+    """
+    def __init__(self, suit, num, hand_num = 0):
         self.suit = suit
         self.num = num
-        self.position = position
         self.hand_num = hand_num
-
-    def set_position(self, position):
-        self.position = position
-
-    def set_hand_num(self, hand_num):
-        self.hand_num = hand_num
-
-    def get_hand_num(self):
-        return self.hand_num
 
     def cardprint(self, parameter, y, x):
+        """
+        This method prints the card to the given curses window at the specified (y, x) location.
+        Parameters:
+        parameter: The curses window where the card will be printed.
+        y (int): The y-coordinate for the card's position.
+        x (int): The x-coordinate for the card's position.
+
+        """
+
         loc_x = x
         loc_y = y 
 
@@ -59,7 +70,6 @@ class card:
             parameter.addstr(loc_y + 3, loc_x, "|             |")
             parameter.addstr(loc_y + 4, loc_x, "|             |")
             parameter.addstr(loc_y + 5, loc_x, "|             |")
-            #parameter.addstr(loc_y + 6, loc_x, "|             |")
             parameter.addstr(loc_y + 6, loc_x, "|    WAGER    |")
             parameter.addstr(loc_y + 7, loc_x, " ------------- ")
 
@@ -70,7 +80,6 @@ class card:
             parameter.addstr(loc_y + 3, loc_x, "|             |")
             parameter.addstr(loc_y + 4, loc_x, "|             |")
             parameter.addstr(loc_y + 5, loc_x, "|             |")
-            #parameter.addstr(loc_y + 6, loc_x, "|             |")
             parameter.addstr(loc_y + 6, loc_x, f"|           {self.num} |")
             parameter.addstr(loc_y + 7, loc_x, " ------------- ")
         else:
@@ -80,7 +89,6 @@ class card:
             parameter.addstr(loc_y + 3, loc_x, "|             |")
             parameter.addstr(loc_y + 4, loc_x, "|             |")
             parameter.addstr(loc_y + 5, loc_x, "|             |")
-            #parameter.addstr(loc_y + 6, loc_x, "|             |")
             parameter.addstr(loc_y + 6, loc_x, f"|          {self.num} |")
             parameter.addstr(loc_y + 7, loc_x, " ------------- ")
 

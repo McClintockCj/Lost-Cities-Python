@@ -3,7 +3,7 @@ import random
 from curses import wrapper
 import time
 import rulebook
-from card import card, RED_ON_BLACK, GREEN_ON_BLACK, BLUE_ON_BLACK, YELLOW_ON_BLACK, PURPLE_ON_BLACK, WHITE_ON_BLACK, Position, Suit
+from card import card, RED_ON_BLACK, GREEN_ON_BLACK, BLUE_ON_BLACK, YELLOW_ON_BLACK, PURPLE_ON_BLACK, WHITE_ON_BLACK, Suit
 from deck import deck
 from player import player, screen_rows, screen_cols
 from game import Game, Game_Type
@@ -111,10 +111,10 @@ def main(stdscr):
                 Deck = deck()
                 for suit in test_suits:
                     for _ in range(3):
-                        temp_card1 = card(suit, 0, Position.DECK)
+                        temp_card1 = card(suit, 0)
                         Deck.deck_cards.append(temp_card1)
                     for number in range(2, 11):
-                        temp_card2 = card(suit, number, Position.DECK)
+                        temp_card2 = card(suit, number)
                         Deck.deck_cards.append(temp_card2)
                 #random.shuffle(Deck.deck_cards)
                 

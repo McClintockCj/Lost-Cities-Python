@@ -1,34 +1,65 @@
 import curses
 import time
-from card import card, RED_ON_BLACK, GREEN_ON_BLACK, BLUE_ON_BLACK, YELLOW_ON_BLACK, PURPLE_ON_BLACK, WHITE_ON_BLACK, Position, Suit
+from card import card, RED_ON_BLACK, GREEN_ON_BLACK, BLUE_ON_BLACK, YELLOW_ON_BLACK, PURPLE_ON_BLACK, WHITE_ON_BLACK, Suit
 
-# Moved here to avoid circular import
 screen_rows = 48
 screen_cols = 137
 
 class player:
+    """
+    The player class represents a player in the Lost Cities game.
 
+    Attributes:
+        player_num (int): The player's number (1 or 2).
+        hand_cards (list): The list of cards in the player's hand.
+        played_cards (dict): A dictionary of played cards by suit.
+
+    Methods:
+        sort_hand(): Sorts the player's hand cards.
+        sort_played(): Sorts the played cards by suit.
+        hand_cordinate(card, index): Returns the (y, x) coordinates for a card in hand.
+        print_hand(parameter, index=0): Prints the player's hand to the given curses window.
+        print_played(parameter): Prints the player's played cards to the given curses window.
+        score(): Calculates and returns the player's score.
+    """
     def __init__(self, deck, player_num = 0):
         self.player_num = player_num
         self.hand_cards = []
         self.played_cards = {Suit.RED :[], Suit.GREEN:[], Suit.BLUE:[], Suit.YELLOW:[], Suit.PURPLE:[], Suit.WHITE:[]}
         for _ in range(1, 9):
             temp_card = deck.draw_card()
-            temp_card.set_position(Position.HAND)
             self.hand_cards.append(temp_card)
         self.sort_hand()
 
 
     def sort_hand(self):
+        """
+        This method sorts the player's hand cards.
+        Parameters:
+        None
+        """
         self.hand_cards = sorted(self.hand_cards, key=lambda temp_card: (temp_card.suit.value, temp_card.num if temp_card.num != 'Wager' else 0))
         for card in self.hand_cards:
-            card.set_hand_num(self.hand_cards.index(card) + 1)
+            card.hand_num = self.hand_cards.index(card) + 1
 
     def sort_played(self):
+        """
+        This method sorts the played cards by suit.
+        Parameters:
+        None
+        """
         for suit in Suit:
             self.played_cards[suit] = sorted(self.played_cards[suit], key=lambda temp_card: (temp_card.num if temp_card.num != 'Wager' else 0))
 
     def hand_cordinate(self, card, index):
+        """
+        This method returns the (y, x) coordinates for a card in hand.
+        Parameters:
+        card (card): The card for which to get the coordinates.
+        index (int): The index for positioning the card.
+        Returns:
+        tuple: The (y, x) coordinates for the card in hand.
+        """
         x_start = 5
         y_start = screen_rows - 10
 
@@ -38,10 +69,21 @@ class player:
             return (y_start + 2, x_start + (16 * (card.hand_num-1)))
         
     def print_hand(self, parameter, index=0):
+        """
+        This method prints the player's hand to the given curses window.
+        Parameters:
+        parameter: The curses window where the hand will be displayed.
+        index (int): The index of the highlighted card.
+        """
         for card in self.hand_cards:
             card.cardprint(parameter, self.hand_cordinate(card, index)[0], self.hand_cordinate(card, index)[1])
 
     def print_played(self, parameter):
+        """
+        This method prints the player's played cards to the given curses window.
+        Parameters:
+        parameter: The curses window where the played cards will be displayed.
+        """
         y_start = screen_rows - 38
         x_start = 5
         self.sort_played()
@@ -62,6 +104,11 @@ class player:
         
     
     def score(self):
+        """
+        This method calculates and returns the player's total score.
+        Returns:
+        int: The total score of the player.
+        """
         total_score = 0
         score_info = {}
         for suit in [Suit.RED, Suit.GREEN, Suit.BLUE, Suit.YELLOW, Suit.PURPLE, Suit.WHITE]:
@@ -90,6 +137,12 @@ class player:
 
         
     def turn(self, parameter, deck):
+        """
+        This method handles the player's turn.
+        Parameters:
+        parameter: The curses window where the game will be displayed.
+        deck: The deck object representing the main deck and discard piles.
+        """
         index = 1
         parameter.clear()
         deck.print_deck(parameter)
@@ -164,6 +217,13 @@ class player:
 
         
     def play(self, index):
+        """
+        This method plays a card from the player's hand to the played cards.
+        Parameters:
+        index (int): The index of the card to be played.
+        Returns:
+        bool: True if the card was successfully played, False otherwise.
+        """
         for card in self.hand_cards:
             if card.hand_num == index:
                 if (len(self.played_cards[Suit(card.suit)]) > 0):
@@ -180,6 +240,12 @@ class player:
 
 
     def draw_to_hand(self, parameter, deck):
+        """
+        This method allows the player to draw a card from the deck or discard pile.
+        Parameters:
+        parameter: The curses window where the game will be displayed.
+        deck: The deck object representing the main deck and discard piles.
+        """
         index = 7
         parameter.clear()
         deck.print_deck(parameter, index)
@@ -218,7 +284,6 @@ class player:
             if (crc == curses.KEY_DOWN):
                 if index == 7:
                     temp_card = deck.draw_card()
-                    temp_card.set_position(Position.HAND)
                     self.hand_cards.append(temp_card)
                     self.sort_hand()
                     break
@@ -230,7 +295,6 @@ class player:
                             parameter.addstr(11, 60, "Invalid", curses.color_pair(7))
                             continue
                         temp_card = deck.discard_cards[Suit(index)].pop()
-                        temp_card.set_position(Position.HAND)
                         self.hand_cards.append(temp_card)
                         self.sort_hand()
                     else:
@@ -245,7 +309,7 @@ class player:
             deck.print_discard(parameter, index)
             parameter.refresh()
 
-        # Added so that if we break out of the loop, it still reprints right away
+        
         parameter.clear()
         deck.print_deck(parameter)
         self.print_hand(parameter)
