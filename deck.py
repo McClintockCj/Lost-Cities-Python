@@ -40,28 +40,18 @@ class deck():
         loc_x = 101
         
         if index == 7:
-            loc_y = 3
+            loc_y = 2
+            parameter.addstr(1, loc_x, f"       {len(self.deck_cards)}/{len(self.full_deck)}")
         else:
             loc_y = 1
 
-        if len(self.deck_cards) >= 10:
+        if len(self.deck_cards) >= 3:
             parameter.addstr(loc_y, loc_x, " --------------- ")
             parameter.addstr(loc_y + 1, loc_x, "||| Lost Cities |")
             parameter.addstr(loc_y + 2, loc_x, "|||             |")
             parameter.addstr(loc_y + 3, loc_x, "|||             |")
-            parameter.addstr(loc_y + 4, loc_x, f"|||    {len(self.deck_cards)}/{len(self.full_deck)}    |")
+            parameter.addstr(loc_y + 4, loc_x, "|||             |")
             parameter.addstr(loc_y + 5, loc_x, "|||             |")
-            #parameter.addstr(loc_y + 6, loc_x, "|||             |")
-            parameter.addstr(loc_y + 6, loc_x, "||| Lost Cities |")
-            parameter.addstr(loc_y + 7, loc_x, " --------------- ")
-        elif len(self.deck_cards) >= 3:
-            parameter.addstr(loc_y, loc_x, " --------------- ")
-            parameter.addstr(loc_y + 1, loc_x, "||| Lost Cities |")
-            parameter.addstr(loc_y + 2, loc_x, "|||             |")
-            parameter.addstr(loc_y + 3, loc_x, "|||             |")
-            parameter.addstr(loc_y + 4, loc_x, f"|||     {len(self.deck_cards)}/{len(self.full_deck)}    |")
-            parameter.addstr(loc_y + 5, loc_x, "|||             |")
-            #parameter.addstr(loc_y + 6, loc_x, "|||             |")
             parameter.addstr(loc_y + 6, loc_x, "||| Lost Cities |")
             parameter.addstr(loc_y + 7, loc_x, " --------------- ")
         elif len(self.deck_cards) == 2:
@@ -69,9 +59,7 @@ class deck():
             parameter.addstr(loc_y + 1, loc_x, "|| Lost Cities |")
             parameter.addstr(loc_y + 2, loc_x, "||             |")
             parameter.addstr(loc_y + 3, loc_x, "||             |")
-            parameter.addstr(loc_y + 4, loc_x, f"||     {len(self.deck_cards)}/{len(self.full_deck)}    |")
             parameter.addstr(loc_y + 5, loc_x, "||             |")
-            #parameter.addstr(loc_y + 6, loc_x, "||             |")
             parameter.addstr(loc_y + 6, loc_x, "|| Lost Cities |")
             parameter.addstr(loc_y + 7, loc_x, " -------------- ")
         elif len(self.deck_cards) >= 1:
@@ -79,9 +67,7 @@ class deck():
             parameter.addstr(loc_y + 1, loc_x, "| Lost Cities |")
             parameter.addstr(loc_y + 2, loc_x, "|             |")
             parameter.addstr(loc_y + 3, loc_x, "|             |")
-            parameter.addstr(loc_y + 4, loc_x, f"|     {len(self.deck_cards)}/{len(self.full_deck)}    |")
             parameter.addstr(loc_y + 5, loc_x, "|             |")
-            #parameter.addstr(loc_y + 6, loc_x, "|             |")
             parameter.addstr(loc_y + 6, loc_x, "| Lost Cities |")
             parameter.addstr(loc_y + 7, loc_x, " ------------- ")
         
@@ -97,6 +83,7 @@ class deck():
     def print_discard(self, parameter, index = 0):
         cord_x = 5
         cord_y = 1
+        y_select_jump = 1
 
         color_choice = curses.A_NORMAL
         
@@ -104,14 +91,27 @@ class deck():
             color_choice = curses.color_pair(key.value)
             if (len(self.discard_cards[key]) > 0):
                 if key.value == index:
-                    self.discard_cards[key][-1].cardprint(parameter, cord_y + 2, cord_x + (16 * (key.value -1)))
+                    adjust_y = 0
+                    self.discard_cards[key][-1].cardprint(parameter, cord_y + y_select_jump, cord_x + (16 * (key.value -1)))
 
                     if len(self.discard_cards[key]) > 1:
                         for i, card in enumerate(self.discard_cards[key][:-1]):
-                            if card.num == 0:
-                                parameter.addstr(cord_y + 1, cord_x + (16 * (key.value -1)) + (i*2) + 1, "W|", color_choice | curses.A_UNDERLINE)
+                            if len(self.discard_cards[key]) >= 9 and i == (len(self.discard_cards[key]) - 9):
+                                parameter.addstr(cord_y, cord_x + (16 * (key.value -1)) + adjust_y, "+|", color_choice)
+                                adjust_y += 2
+                                continue
+                            elif len(self.discard_cards[key]) >= 9 and i < (len(self.discard_cards[key]) - 7):
+                                continue
                             else:
-                                parameter.addstr(cord_y + 1, cord_x + (16 * (key.value -1)) + (i*2) + 1, f"{card.num}|", color_choice | curses.A_UNDERLINE)
+                                if card.num == 0:
+                                    parameter.addstr(cord_y, cord_x + (16 * (key.value -1)) + adjust_y, "W|", color_choice)
+                                    adjust_y += 2
+                                elif card.num == 10:
+                                    parameter.addstr(cord_y, cord_x + (16 * (key.value -1)) + adjust_y, f"{card.num}|", color_choice)
+                                    adjust_y += 3
+                                else:
+                                    parameter.addstr(cord_y, cord_x + (16 * (key.value -1)) + adjust_y, f"{card.num}|", color_choice)
+                                    adjust_y += 2
                 else:
                     self.discard_cards[key][-1].cardprint(parameter, cord_y, cord_x + (16 * (key.value -1)))
             

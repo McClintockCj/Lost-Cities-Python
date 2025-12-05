@@ -121,7 +121,7 @@ def main(stdscr):
                     rulebook.rulebook(stdscr)
                     stdscr.clear()
                     stdscr.refresh()
-                    return
+                    break
 
                 elif idx == 3:
                     stdscr.clear()
