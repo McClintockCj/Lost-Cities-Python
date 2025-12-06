@@ -1,5 +1,7 @@
 import curses
 import random
+import socket
+import pickle
 from curses import wrapper
 import time
 import rulebook
@@ -140,6 +142,6 @@ def main(stdscr):
                     stdscr.clear()
         stdscr.refresh()
 
-
 wrapper(main)
+
 
